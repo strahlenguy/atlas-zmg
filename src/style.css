@@ -1,0 +1,269 @@
+/* ── Tokens (Catppuccin Latte) ─────────────────────────────── */
+  :root {
+    --base:    #eff1f5;
+    --mantle:  #e6e9ef;
+    --crust:   #dce0e8;
+    --surface: #ccd0da;
+    --text:    #4c4f69;
+    --subtext: #6c6f85;
+    --blue:    #1e66f5;
+    --green:   #40a02b;
+    --peach:   #fe640b;
+    --red:     #d20f39;
+    --mauve:   #8839ef;
+    --teal:    #179299;
+    --sidebar-w: 340px;
+    --mono: ui-monospace, "SF Mono", "Cascadia Code", Menlo, Consolas, monospace;
+    --sans: ui-sans-serif, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body { height: 100%; font-family: var(--sans); color: var(--text); background: var(--base); }
+
+  #app { display: flex; flex-direction: column; height: 100%; }
+
+  /* ── Header ────────────────────────────────────────────────── */
+  header {
+    display: flex; align-items: center; gap: 12px;
+    padding: 10px 16px;
+    background: var(--mantle);
+    border-bottom: 1px solid var(--surface);
+    flex-shrink: 0;
+  }
+  header h1 {
+    font-size: 15px; font-weight: 700; letter-spacing: 0.02em;
+  }
+  header h1 .tag {
+    font-family: var(--mono); font-size: 11px; font-weight: 500;
+    color: var(--subtext); margin-left: 6px;
+  }
+  #save-status {
+    font-family: var(--mono); font-size: 11px; color: var(--subtext);
+    margin-left: auto; margin-right: 8px;
+  }
+  header button, .btn {
+    font-family: var(--sans); font-size: 12px; font-weight: 600;
+    padding: 6px 12px; border-radius: 6px; cursor: pointer;
+    border: 1px solid var(--surface); background: var(--base); color: var(--text);
+    transition: background 0.15s;
+  }
+  header button:hover, .btn:hover { background: var(--crust); }
+  header button:focus-visible, .btn:focus-visible,
+  input:focus-visible, textarea:focus-visible {
+    outline: 2px solid var(--blue); outline-offset: 1px;
+  }
+  #btn-clear { color: var(--red); }
+
+  /* ── Layout ────────────────────────────────────────────────── */
+  #main { display: flex; flex: 1; min-height: 0; }
+  #map  { flex: 1; min-width: 0; }
+
+  /* ── Sidebar ───────────────────────────────────────────────── */
+  #sidebar {
+    width: var(--sidebar-w); flex-shrink: 0;
+    background: var(--mantle);
+    border-left: 1px solid var(--surface);
+    display: flex; flex-direction: column;
+    overflow: hidden;
+  }
+  #sidebar-head {
+    padding: 12px 14px 8px;
+    border-bottom: 1px solid var(--surface);
+  }
+  #sidebar-head .counts {
+    font-family: var(--mono); font-size: 11px; color: var(--subtext);
+    display: flex; gap: 14px; margin-top: 4px;
+  }
+  #sidebar-head strong { font-size: 13px; }
+  #item-list { flex: 1; overflow-y: auto; padding: 10px; }
+
+  #empty-hint {
+    font-size: 12.5px; color: var(--subtext); line-height: 1.55;
+    padding: 14px 8px;
+  }
+  #empty-hint b { color: var(--text); }
+
+  /* ── Cards ─────────────────────────────────────────────────── */
+  .card {
+    background: var(--base);
+    border: 1px solid var(--surface);
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 8px;
+    cursor: pointer;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  .card.selected {
+    border-color: var(--blue);
+    box-shadow: 0 0 0 1px var(--blue);
+  }
+  .card.dragging { opacity: 0.4; }
+  .card.drop-before { box-shadow: 0 -3px 0 0 var(--blue); }
+  .card-handle {
+    cursor: grab; color: var(--subtext); flex-shrink: 0;
+    font-size: 13px; letter-spacing: -1px; user-select: none;
+    padding: 2px 2px 2px 0;
+  }
+  .card-handle:active { cursor: grabbing; }
+
+  /* ── Grupos ────────────────────────────────────────────────── */
+  .group { margin-bottom: 12px; }
+  .group-head {
+    display: flex; align-items: center; gap: 6px;
+    padding: 4px 6px; border-radius: 6px;
+    margin-bottom: 6px;
+  }
+  .group-head.drop-hover { background: var(--crust); box-shadow: 0 0 0 2px var(--blue); }
+  .group-toggle {
+    background: none; border: none; cursor: pointer;
+    color: var(--subtext); font-size: 10px; padding: 2px; width: 16px;
+  }
+  .group-name {
+    flex: 1; min-width: 0;
+    font-family: var(--mono); font-size: 11.5px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.06em;
+    color: var(--subtext);
+    border: none; background: transparent; padding: 2px 4px; border-radius: 4px;
+  }
+  .group-name:hover, .group-name:focus { background: var(--crust); color: var(--text); }
+  .group-count {
+    font-family: var(--mono); font-size: 10.5px; color: var(--subtext); flex-shrink: 0;
+  }
+  .group-body { padding-left: 4px; }
+  .group-body.drop-hover {
+    border-radius: 8px; box-shadow: inset 0 0 0 2px var(--blue);
+    min-height: 20px;
+  }
+  .group-body.empty-body {
+    font-size: 11.5px; color: var(--subtext); padding: 6px 8px;
+    border: 1px dashed var(--surface); border-radius: 8px;
+  }
+  .card-row { display: flex; align-items: center; gap: 8px; }
+  .swatch {
+    width: 18px; height: 18px; border-radius: 5px; flex-shrink: 0;
+    border: 1px solid rgba(0,0,0,0.15); cursor: pointer; padding: 0;
+    background: none; position: relative; overflow: hidden;
+  }
+  .swatch input[type=color] {
+    position: absolute; inset: -4px; width: 200%; height: 200%;
+    cursor: pointer; border: none; padding: 0;
+  }
+  .card-name {
+    flex: 1; min-width: 0;
+    font-size: 13px; font-weight: 600; color: var(--text);
+    border: none; background: transparent; padding: 2px 4px; border-radius: 4px;
+  }
+  .card-name:hover, .card-name:focus { background: var(--crust); }
+  .icon-btn {
+    background: none; border: none; cursor: pointer; flex-shrink: 0;
+    font-size: 13px; color: var(--subtext); padding: 2px 4px; border-radius: 4px;
+    line-height: 1;
+  }
+  .icon-btn:hover { background: var(--crust); color: var(--text); }
+  .icon-btn.danger:hover { color: var(--red); }
+
+  .card-meta {
+    display: flex; align-items: center; gap: 8px;
+    margin-top: 6px; padding-left: 26px;
+  }
+  .chip {
+    font-family: var(--mono); font-size: 10.5px;
+    padding: 2px 7px; border-radius: 4px;
+    background: var(--crust); color: var(--subtext);
+  }
+  .chip.kind-zone   { color: var(--mauve); }
+  .chip.kind-route  { color: var(--teal); }
+  .chip.kind-marker { color: var(--peach); }
+  .chip.measure {
+    /* barra de escala en miniatura */
+    border-left: 3px solid var(--surface);
+    border-right: 3px solid var(--surface);
+    border-radius: 2px;
+    background: var(--base);
+    color: var(--text);
+  }
+
+  .card-notes {
+    display: none;
+    width: 100%; margin-top: 8px;
+    font-family: var(--sans); font-size: 12.5px; line-height: 1.45;
+    color: var(--text);
+    background: var(--crust);
+    border: 1px solid var(--surface); border-radius: 6px;
+    padding: 7px 9px; resize: vertical; min-height: 58px;
+  }
+  .card.selected .card-notes { display: block; }
+  .card-notes::placeholder { color: var(--subtext); }
+
+  .card-palette {
+    display: none; gap: 7px; margin-top: 8px; padding-left: 26px;
+    align-items: center;
+  }
+  .card.selected .card-palette { display: flex; }
+  .pal-dot {
+    width: 17px; height: 17px; border-radius: 50%;
+    border: 1px solid rgba(0,0,0,0.2); cursor: pointer; padding: 0;
+  }
+  .pal-dot:hover { transform: scale(1.15); }
+  .pal-dot.current { box-shadow: 0 0 0 2px var(--mantle), 0 0 0 4px var(--text); }
+
+  /* ── Ajustes Leaflet ───────────────────────────────────────── */
+  .leaflet-container { font-family: var(--sans); background: var(--crust); }
+  .leaflet-draw-toolbar a { background-color: var(--base); }
+
+  /* ── Modo ruta A→B ─────────────────────────────────────────── */
+  .route-ab-btn {
+    display: block; width: 30px; height: 30px;
+    background: var(--base); color: var(--text);
+    font-family: var(--mono); font-size: 11px; font-weight: 700;
+    line-height: 30px; text-align: center;
+    cursor: pointer; text-decoration: none;
+  }
+  .route-ab-btn:hover { background: var(--crust); }
+  .route-ab-btn.active { background: var(--blue); color: #fff; }
+  #route-banner {
+    position: absolute; top: 12px; left: 50%; transform: translateX(-50%);
+    z-index: 1000;
+    background: var(--blue); color: #fff;
+    font-family: var(--mono); font-size: 12px;
+    padding: 6px 14px; border-radius: 6px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+    display: none;
+  }
+  .ab-label {
+    background: var(--blue); color: #fff;
+    font-family: var(--mono); font-size: 11px; font-weight: 700;
+    border-radius: 50%; width: 20px; height: 20px;
+    line-height: 20px; text-align: center;
+    border: 2px solid #fff; box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+  }
+
+  /* ── Responsive ────────────────────────────────────────────── */
+  @media (max-width: 720px) {
+    #main { flex-direction: column; }
+    #sidebar {
+      width: 100%; height: 42%;
+      border-left: none; border-top: 1px solid var(--surface);
+      order: 2;
+    }
+    #map { order: 1; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; }
+  }
+
+/* ── Pesos por tarjeta ─────────────────────────────────────── */
+.card-weights {
+  display: none; gap: 10px; margin-top: 8px; padding-left: 26px;
+  align-items: center; flex-wrap: wrap;
+  font-size: 11.5px; color: var(--subtext);
+}
+.card.selected .card-weights { display: flex; }
+.card-weights label { display: flex; align-items: center; gap: 5px; }
+.card-weights input {
+  width: 54px; font-family: var(--mono); font-size: 12px;
+  padding: 3px 6px; border: 1px solid var(--surface); border-radius: 5px;
+  background: var(--base); color: var(--text);
+}
+.chip.weight { color: var(--blue); }

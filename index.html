@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Atlas ZMG — Análisis gráfico</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
+</head>
+<body>
+<div id="app">
+  <header>
+    <h1>Atlas ZMG<span class="tag">análisis gráfico · Guadalajara y alrededores</span></h1>
+    <span id="save-status">—</span>
+    <button id="btn-export" title="Descargar todo como GeoJSON">Exportar GeoJSON</button>
+    <button id="btn-import" title="Cargar un archivo GeoJSON">Importar</button>
+    <button id="btn-clear">Borrar todo</button>
+    <input type="file" id="file-input" accept=".geojson,.json" hidden>
+  </header>
+  <div id="main">
+    <div id="map">
+      <div id="route-banner"></div>
+    </div>
+    <aside id="sidebar">
+      <div id="sidebar-head">
+        <div style="display:flex;align-items:center;gap:8px;">
+          <strong style="flex:1;">Elementos</strong>
+          <button class="btn" id="btn-center" title="Centro óptimo de tus puntos de interés (distancia lineal)">◉ Centro</button>
+          <button class="btn" id="btn-center-global" title="Centro global: puntos + zonas, distancia lineal (excluye rutas)">◎ Global</button>
+          <button class="btn" id="btn-center-routes" title="Centro global por km de calles (OSRM): puntos + zonas">◈ Rutas</button>
+          <button class="btn" id="btn-new-group" title="Crear grupo por tópico">+ Grupo</button>
+        </div>
+        <div class="counts">
+          <span id="count-zones">0 zonas</span>
+          <span id="count-routes">0 rutas</span>
+          <span id="count-markers">0 puntos</span>
+        </div>
+      </div>
+      <div id="item-list">
+        <div id="empty-hint">
+          Usa la barra de la izquierda del mapa para dibujar:<br><br>
+          <b>⬠ Polígono / ▭ Rectángulo</b> → zonas de análisis<br>
+          <b>─ Línea</b> → rutas o trayectos<br>
+          <b>● Marcador</b> → puntos de interés<br>
+          <b>A→B</b> → ruta automática por calles entre dos puntos<br><br>
+          Cada elemento aparece aquí con su medición y un campo de notas.
+          Todo se guarda automáticamente en este navegador.
+        </div>
+      </div>
+    </aside>
+  </div>
+</div>
+<script type="module" src="/src/main.js"></script>
+</body>
+</html>
